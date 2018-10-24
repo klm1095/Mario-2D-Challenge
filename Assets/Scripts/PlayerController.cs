@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.UI;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
@@ -14,6 +15,7 @@ public class PlayerController : MonoBehaviour
     public AudioClip jump;
     public AudioClip coin;
 
+
     private AudioSource source;
     private AudioSource source2;
     
@@ -24,11 +26,8 @@ public class PlayerController : MonoBehaviour
     public float checkRadius;
     public LayerMask allGround;
 
-    // private float jumpTimeCounter;
-    //public float jumpTime;
-    //private bool isJumping;
-
-    //audio stuff
+    private int count;
+    public Text countText;
 
 
 
@@ -37,9 +36,15 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         rb2d = GetComponent<Rigidbody2D>();
-      
-
+        SetCountText();      
+        
     }
+
+    void SetCountText()
+    {
+        countText.text = "Count: " + count.ToString();
+    }
+     
 
     void Awake()
     {
@@ -47,6 +52,8 @@ public class PlayerController : MonoBehaviour
         // source = GetComponent<AudioSource>();
         source = GetComponent<AudioSource>();
         source2 = GetComponent<AudioSource>();
+        
+        
     }
 
 
@@ -94,6 +101,14 @@ public class PlayerController : MonoBehaviour
         {
             other.gameObject.SetActive(false);
             source2.PlayOneShot(coin, 1f);
+            count = count + 1;
+            SetCountText();
+        }
+
+        else if(other.gameObject.CompareTag ("Box"))
+        {
+            count = count + 1;
+            SetCountText();
         }
     }
 
@@ -125,4 +140,6 @@ public class PlayerController : MonoBehaviour
             }
         }
     }
+
+  
 }
